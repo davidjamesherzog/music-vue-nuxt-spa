@@ -24,7 +24,7 @@ export default class Music extends VuexModule {
     return album;
   }
 
-  get songs() {
+  get songs(): Type[] {
     return this.albumDetails.results.filter(
       (type) => type.wrapperType === 'track'
     );

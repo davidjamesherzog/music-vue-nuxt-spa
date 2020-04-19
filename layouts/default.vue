@@ -35,18 +35,6 @@ export default class App extends Vue {}
   float: right;
 }
 
-.el-header {
-  overflow: hidden;
-  background-color: #b3c0d1;
-  color: #333;
-  line-height: 60px;
-  font-size: 1rem;
-  position: fixed;
-  top: 0; /* Position the navbar at the top of the page */
-  width: 100%; /* Full width */
-  z-index: 9999;
-}
-
 @media only screen and (max-width: 768px) {
   .el-main {
     padding: 0 !important;
