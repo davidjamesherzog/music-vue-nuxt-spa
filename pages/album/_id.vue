@@ -18,6 +18,26 @@
             <div>Date: {{ album.releaseDate.substring(0, 4) }}</div>
             <div>Genre: {{ album.primaryGenreName }}</div>
             <div>Tracks: {{ album.trackCount - 1 }}</div>
+            <div>
+              <a class="spacer" download="album.properties" :href="downloadUrl">
+                <el-button
+                  type="primary"
+                  icon="el-icon-download"
+                  title="Download Metadata"
+                  circle
+                  size="mini"
+                  @click="download()"
+                ></el-button>
+              </a>
+              <el-button
+                type="primary"
+                icon="el-icon-document-copy"
+                title="Copy to Clipboard"
+                circle
+                size="mini"
+                @click="copyToClipboard()"
+              ></el-button>
+            </div>
           </div>
         </div>
       </el-col>
@@ -82,16 +102,17 @@ export default class Music extends Vue {
   private currentFile!: Type;
   private currentIndex: number = -1;
   private audioService = new AudioService();
+  private downloadUrl: string = '';
 
   // music store
   @musicModule.State
   private loading!: boolean;
 
   @musicModule.Getter
-  private album: any;
+  private album!: Type;
 
   @musicModule.Getter
-  private songs: any;
+  private songs!: Type[];
 
   @musicModule.Action
   private getAlbumDetails: any;
@@ -187,6 +208,50 @@ export default class Music extends Vue {
     this.audioService.pause();
   }
 
+  public constructAlbumDetails(): string {
+    const text = [
+      `Artist: ${this.album.artistName}`,
+      `Album: ${this.album.collectionName}`,
+      `Year: ${this.album.releaseDate.substring(0, 4)}`,
+      `Genre: ${this.album.primaryGenreName}`,
+      `Extension: mp3`
+    ];
+    let discNo = 0;
+    this.songs.forEach((song: Type) => {
+      if (song.discNumber !== discNo) {
+        text.push(`Disc ${song.discNumber}:`);
+        discNo = song.discNumber;
+      }
+      if (song.trackNumber < 10) {
+        text.push(`0${song.trackNumber} - ${song.trackName}`);
+      } else {
+        text.push(`${song.trackNumber} - ${song.trackName}`);
+      }
+    });
+    return text.join('\r\n');
+  }
+
+  public download() {
+    const data = new Blob([this.constructAlbumDetails()], {
+      type: 'text/plain'
+    });
+    this.downloadUrl = window.URL.createObjectURL(data);
+  }
+
+  public copyToClipboard() {
+    navigator.clipboard.writeText(this.constructAlbumDetails()).then(
+      () => {
+        this.$message({
+          message: 'Album copied to clipboard',
+          type: 'success'
+        });
+      },
+      () => {
+        this.$message.error('Error copying album to clipboard');
+      }
+    );
+  }
+
   public validate(validation: Validation) {
     // Must be a number
     return /^\d+$/.test(validation.params.id);
@@ -218,6 +283,10 @@ h2 {
 
 .progress-width {
   width: 90%;
+}
+
+.spacer {
+  margin-right: 0.5em;
 }
 
 div {
