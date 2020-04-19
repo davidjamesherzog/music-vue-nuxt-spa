@@ -1,6 +1,6 @@
 # music-vue-nuxt-spa
 
-> Music Nuxt
+This project uses the iTunes API.  You can search for a specific musician and view their albums.  You can also listen to samples of the songs from the album.
 
 ## Build Setup
 
