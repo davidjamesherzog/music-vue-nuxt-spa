@@ -10,10 +10,11 @@ npm run generate
 rm -R docs
 mkdir docs
 cp -R dist/ docs/
+mv docs/200.html docs/index.html
 
 # git init
 git add -A
-git commit -m 'deploy built app'
+git commit -m 'deploy built app with index.html'
 
 # push to github
 git push -u origin master
