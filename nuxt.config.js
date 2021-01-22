@@ -1,5 +1,10 @@
 export default {
   mode: 'spa',
+
+  router: {
+    base: '/music-vue-nuxt-spa/'
+  },
+
   /*
    ** Headers of the page
    */

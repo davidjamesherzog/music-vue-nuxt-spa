@@ -1,6 +1,6 @@
 # music-vue-nuxt-spa
 
-This project uses the iTunes API.  You can search for a specific musician and view their albums.  You can also listen to samples of the songs from the album.
+This project uses the iTunes API.  You can search for a specific musician and view their albums.  You can also listen to samples of the songs from the album.  This is built on nuxt.js (SPA) and element.  You may find a demo [here](https://davidjamesherzog.github.io/music-vue-nuxt-spa/).
 
 ## Build Setup
 
